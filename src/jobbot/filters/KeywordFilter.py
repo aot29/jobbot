@@ -24,12 +24,14 @@ class KeyWordFilter(JobFilter):
       )
 
     def apply(self, jobs: list[dict]) -> list[dict]:
-        """Filter out unwanted jobs and flag research-flavored titles."""
+        """Filter out unwanted jobs and keep research-flavored titles."""
         out: list[dict] = []
         for job in jobs:
             title = job["title"]
             if self.BANNED.search(title):
                 continue
-            job["is_research"] = bool(self.RESEARCH_HINTS.search(title))
+#            if (self.RESEARCH_HINTS.search(title) or
+#                self.RESEARCH_HINTS.search(job["description"])):
+            job["is_research"] = True
             out.append(job)
         return out

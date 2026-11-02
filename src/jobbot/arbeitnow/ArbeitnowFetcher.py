@@ -1,5 +1,6 @@
 from jobbot.interfaces import JobFetcher
 import httpx
+import time
 
 
 class ArbeitnowFetcher (JobFetcher):
@@ -21,4 +22,6 @@ class ArbeitnowFetcher (JobFetcher):
                 r = client.get(self.ARBEITNOW_URL, params={"page": page})
                 r.raise_for_status()
                 jobs.extend(r.json().get("data", []))
+                if page < self.pages:
+                    time.sleep(5)
         return jobs

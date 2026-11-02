@@ -15,6 +15,12 @@ from __future__ import annotations
 from jobbot.interfaces import *
 from jobbot.arbeitnow.ArbeitnowNormalizer import ArbeitnowNormalizer
 from jobbot.arbeitnow.ArbeitnowFetcher import ArbeitnowFetcher
+from jobbot.tuberlin.TuBerlinNormalizer import TuBerlinNormalizer
+from jobbot.tuberlin.TuBerlinFetcher import TuBerlinFetcher
+from jobbot.fuberlin.FuBerlinNormalizer import FuBerlinNormalizer
+from jobbot.fuberlin.FuBerlinFetcher import FuBerlinFetcher
+from jobbot.bht.BhtNormalizer import BhtNormalizer
+from jobbot.bht.BhtFetcher import BhtFetcher
 from jobbot.filters.KeywordFilter import KeyWordFilter
 from jobbot.serializers.Excel import Excel
 
@@ -34,14 +40,21 @@ class Pipeline:
 
     def run(self) -> tuple[int, str]:
         raw = self.fetcher.fetch()
+        print(raw)
         jobs = self.normalizer.normalize(raw)
         jobs = self.filter.apply(jobs)
         num_entries, path = self.serializer.export(jobs)
         return num_entries, path
 
 def main() -> None:
-    fetcher = ArbeitnowFetcher(pages=10)
-    normalizer = ArbeitnowNormalizer()
+    # fetcher = ArbeitnowFetcher(pages=100)
+    # normalizer = ArbeitnowNormalizer()
+    # fetcher = TuBerlinFetcher()
+    # normalizer = TuBerlinNormalizer()
+    #fetcher = FuBerlinFetcher()
+    #normalizer = FuBerlinNormalizer()
+    fetcher = BhtFetcher()
+    normalizer = BhtNormalizer()
     filter = KeyWordFilter()
     serializer = Excel()
     pipeline = Pipeline(fetcher, normalizer, filter, serializer)

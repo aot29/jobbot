@@ -1,4 +1,7 @@
 from abc import ABC, abstractmethod
+import html
+import re
+import hashlib
 
 
 class JobNormalizer:
@@ -8,6 +11,20 @@ class JobNormalizer:
     def normalize(self, raw: list[dict]) -> list[dict]:
         """Normalize a raw posting into the internal schema."""
         raise NotImplementedError
+
+    @staticmethod
+    def clean_html(text: str) -> str:
+        """Unescape HTML entities and strip tags from a job description."""
+        text = html.unescape(text or "")
+        text = re.sub(r"<[^>]+>", " ", text)          # strip tags
+        text = re.sub(r"\s+", " ", text).strip()       # collapse whitespace
+        text = re.sub(r"[\x00-\x1F\x7F-\x9F]", "", text)  # remove control chars
+        return text
+
+    @staticmethod
+    def dedupe_key(job: dict) -> str:
+        basis = f"{job['title'].lower()}|{job['company'].lower()}"
+        return hashlib.sha1(basis.encode()).hexdigest()
 
 class JobFetcher:
     """Abstract base class for job fetchers."""
