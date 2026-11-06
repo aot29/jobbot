@@ -46,6 +46,6 @@ class JobSerializer:
     """Abstract base class for job serializers."""
 
     @abstractmethod
-    def export(self, jobs: list[dict], path: str | None = None) -> tuple[int, str]:
+    def export(self, path: str, jobs: list[dict]) -> int:
         """Serialize a list of normalized postings to a file and return the file path."""
         raise NotImplementedError

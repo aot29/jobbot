@@ -2,3 +2,6 @@ __pycache__
 *.key
 .env
 .DS_Store
+.ipynb_checkpoints
+assessments
+jobs
