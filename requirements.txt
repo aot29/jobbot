@@ -1,0 +1,10 @@
+httpx
+pandas
+openpyxl
+feedparser
+ipykernel
+jupyterlab
+python-dotenv
+pydantic
+langchain-core
+langchain-mistralai
