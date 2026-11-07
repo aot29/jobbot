@@ -13,7 +13,7 @@ python -m pip install -r requirements.txt
 ```
 
 ## Crawl the job sites
-Crawl the web and get the jobs from the pre-configured sites (BHT, TU, FU, Arbeitnow).
+Crawl the web and get the jobs from the pre-configured sites (BHT, TU, FU, HU).
 
 ````
 ./jobsearch.sh
